@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+
+@using BlazorServerVirtualised.Data
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates Virtualised fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Temp. (C)</th>
+			<th>Temp. (F)</th>
+			<th>Summary</th>
+		</tr>
+	</thead>
+	<tbody>
+		<Virtualize Context="item" ItemsProvider="LoadItems" ItemSize="50" OverscanCount="3" TItem="WeatherForecast">
+			<ItemContent>
+				<CascadingValue Value="item">
+					<tr style="height:50px;margin:0;padding:0;">
+						<td>@item.Date.ToShortDateString()</td>
+						<td>@item.TemperatureC</td>
+						<td>@item.TemperatureF</td>
+						<td>@item.Summary</td>
+					</tr>
+				</CascadingValue>
+			</ItemContent>
+			<Placeholder>
+					<tr style="height:50px;margin:0;padding:0;">
+						<td>
+						<p>Loading</p>
+						</td>
+					</tr>
+			</Placeholder>
+		</Virtualize>
+	</tbody>
+</table>
+}
+
